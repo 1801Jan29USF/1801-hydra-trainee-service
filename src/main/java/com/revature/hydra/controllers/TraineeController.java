@@ -2,8 +2,6 @@ package com.revature.hydra.controllers;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -84,7 +82,7 @@ public class TraineeController {
 	//@RequestMapping(value = "/all/trainee/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	//@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
 	//@PreAuthorize("hasAnyRole('VP', 'QC', 'TRAINER', 'PANEL')")
-	public ResponseEntity<Trainee> createTrainee(@Valid @RequestBody Trainee trainee) {
+	public ResponseEntity<Trainee> createTrainee(@RequestBody Trainee trainee) {
 		log.info("Saving trainee: " + trainee);
 		traineeService.save(trainee);
 		return new ResponseEntity<>(trainee, HttpStatus.CREATED);
@@ -99,7 +97,7 @@ public class TraineeController {
 	//@RequestMapping(value = "/all/trainee/update", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	//@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
 	//@PreAuthorize("hasAnyRole('VP', 'QC', 'TRAINER','PANEL')")
-	public ResponseEntity<Void> updateTrainee(@Valid @RequestBody Trainee trainee) {
+	public ResponseEntity<Void> updateTrainee(@RequestBody Trainee trainee) {
 		log.info("Updating trainee: " + trainee);
 		traineeService.update(trainee);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);

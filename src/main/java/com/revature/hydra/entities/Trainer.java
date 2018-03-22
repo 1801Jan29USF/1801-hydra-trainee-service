@@ -14,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -54,7 +53,7 @@ public class Trainer implements Serializable {
 	@JsonProperty
 	private String email;
 
-	@NotNull
+	@Email
 	@Enumerated(EnumType.STRING)
 	@Column(name = "TIER")
 	private TrainerRole tier;

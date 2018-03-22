@@ -74,13 +74,11 @@ public class Batch implements Serializable {
 	private TrainingType trainingType;
 
 	@JsonFormat(timezone="EST", pattern = "yyyy-MM-dd")
-	@NotNull
 	@Temporal(TemporalType.DATE)
 	@Column(name = "START_DATE", nullable = false)
 	private Date startDate;
 
 	@JsonFormat(timezone="EST", pattern = "yyyy-MM-dd")
-	@NotNull
 	@Temporal(TemporalType.DATE)
 	@Column(name = "END_DATE", nullable = false)
 	private Date endDate;

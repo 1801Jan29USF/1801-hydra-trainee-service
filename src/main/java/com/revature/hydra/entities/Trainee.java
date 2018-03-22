@@ -54,8 +54,6 @@ public class Trainee implements Serializable {
 	@Column(name = "TRAINING_STATUS")
 	private TrainingStatus trainingStatus;
 
-	// This information is stored on the batch entity
-	@NotNull
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn(name = "BATCH_ID", nullable = false)
 	private Batch batch;
@@ -108,19 +106,19 @@ public class Trainee implements Serializable {
 	@OneToMany(mappedBy = "trainee")
 	@OrderBy(value = "INTERVIEW_DATE DESC")
 	private Set<Panel> panelInterviews = new TreeSet<>();
-	
-//	@OneToMany(mappedBy = "trainee", cascade = CascadeType.REMOVE)
+
+	// @OneToMany(mappedBy = "trainee", cascade = CascadeType.REMOVE)
 	// entity diagram has a TOTALS field. Don't know what that is
 
 	@Column(name = "MARKETING_STATUS")
 	private String marketingStatus;
-	
+
 	@Column(name = "CLIENT")
 	private String client;
-	
+
 	@Column(name = "END_CLIENT")
 	private String endClient;
-	
+
 	@OneToOne
 	private User traineeUserInfo;
 
@@ -478,5 +476,4 @@ public class Trainee implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	
 }

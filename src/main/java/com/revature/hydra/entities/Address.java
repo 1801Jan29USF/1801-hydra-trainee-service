@@ -25,19 +25,18 @@ public class Address implements Serializable {
 	private int addressId;
 
 	@Column(name = "ADDRESS_STREET")
-	@NotEmpty
 	private String street;
 
-	@Column(name = "ADDRESS_CITY")
 	@NotEmpty
+	@Column(name = "ADDRESS_CITY")
 	private String city;
 
-	@Column(name = "ADDRESS_STATE")
 	@NotEmpty
+	@Column(name = "ADDRESS_STATE")
 	private String state;
 
-	@Column(name = "ADDRESS_ZIPCODE")
 	@NotEmpty
+	@Column(name = "ADDRESS_ZIPCODE")
 	private String zipcode;
 
 	@Column(name = "ADDRESS_COMPANY")
