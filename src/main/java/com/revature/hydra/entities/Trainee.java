@@ -119,7 +119,7 @@ public class Trainee implements Serializable {
 	@Column(name = "END_CLIENT")
 	private String endClient;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.PERSIST)
 	private User traineeUserInfo;
 
 	public int getTraineeId() {
