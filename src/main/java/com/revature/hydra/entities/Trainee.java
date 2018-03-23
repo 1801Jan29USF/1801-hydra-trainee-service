@@ -9,13 +9,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
@@ -120,7 +116,7 @@ public class Trainee implements Serializable {
 	@Column(name = "END_CLIENT")
 	private String endClient;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.PERSIST)
 	private User traineeUserInfo;
 
 	public int getTraineeId() {
