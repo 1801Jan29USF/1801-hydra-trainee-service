@@ -28,13 +28,13 @@ public class TraineeServiceImpl implements TraineeService {
 	@Override
 	@Transactional
 	public List<Trainee> findAllByBatch(int batchId) {
-		return traineeRepo.findAllByBatchBatchIdAndTrainingStatusNot(batchId, TrainingStatus.DROPPED);
+		return traineeRepo.findAllByBatchIdAndTrainingStatusNot(batchId, TrainingStatus.DROPPED);
 	}
 
 	@Override
 	@Transactional
 	public List<Trainee> findDroppedByBatch(int batchId) {
-		return traineeRepo.findAllByBatchBatchIdAndTrainingStatus(batchId, TrainingStatus.DROPPED);
+		return traineeRepo.findAllByBatchIdAndTrainingStatus(batchId, TrainingStatus.DROPPED);
 	}
 
 	@Override

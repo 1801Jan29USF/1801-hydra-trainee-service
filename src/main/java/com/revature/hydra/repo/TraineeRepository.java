@@ -15,7 +15,7 @@ import com.revature.hydra.entities.TrainingStatus;
  */
 @Repository
 public interface TraineeRepository extends JpaRepository<Trainee, Integer> {
-	List<Trainee> findAllByBatchBatchIdAndTrainingStatusNot(Integer batchId, TrainingStatus status);
+	List<Trainee> findAllByBatchIdAndTrainingStatusNot(Integer batchId, TrainingStatus status);
 
-	List<Trainee> findAllByBatchBatchIdAndTrainingStatus(Integer batchId, TrainingStatus status);
+	List<Trainee> findAllByBatchIdAndTrainingStatus(Integer batchId, TrainingStatus status);
 }

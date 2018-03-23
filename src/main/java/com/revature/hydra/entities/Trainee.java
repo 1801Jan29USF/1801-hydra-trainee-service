@@ -4,19 +4,14 @@ import java.io.Serializable;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -54,9 +49,12 @@ public class Trainee implements Serializable {
 	@Column(name = "TRAINING_STATUS")
 	private TrainingStatus trainingStatus;
 
-	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-	@JoinColumn(name = "BATCH_ID", nullable = false)
-	private Batch batch;
+	// @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+	// @JoinColumn(name = "BATCH_ID", nullable = false)
+	// private Batch batch;
+	
+	@Column(name = "BATCH_ID")
+	private Integer batchId;
 
 	@Column(name = "PHONE_NUMBER")
 	private String phoneNumber;
@@ -118,8 +116,43 @@ public class Trainee implements Serializable {
 	@Column(name = "END_CLIENT")
 	private String endClient;
 
-	@OneToOne(cascade = CascadeType.PERSIST)
-	private User traineeUserInfo;
+	@Column(name = "USER_ID")
+	private Integer traineeUserInfo;
+
+	public Trainee() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Trainee(int traineeId, int resourceId, String name, TrainingStatus trainingStatus, Integer batchId,
+			String phoneNumber, String skypeId, String profileUrl, String recruiterName, String college, String degree,
+			String major, String techScreenerName, String projectCompletion, TraineeFlag flagStatus, String flagNotes,
+			Set<Grade> grades, Set<Note> notes, Set<Panel> panelInterviews, String marketingStatus, String client,
+			String endClient, Integer traineeUserInfo) {
+		this.traineeId = traineeId;
+		this.resourceId = resourceId;
+		this.name = name;
+		this.trainingStatus = trainingStatus;
+		this.batchId = batchId;
+		this.phoneNumber = phoneNumber;
+		this.skypeId = skypeId;
+		this.profileUrl = profileUrl;
+		this.recruiterName = recruiterName;
+		this.college = college;
+		this.degree = degree;
+		this.major = major;
+		this.techScreenerName = techScreenerName;
+		this.projectCompletion = projectCompletion;
+		this.flagStatus = flagStatus;
+		this.flagNotes = flagNotes;
+		this.grades = grades;
+		this.notes = notes;
+		this.panelInterviews = panelInterviews;
+		this.marketingStatus = marketingStatus;
+		this.client = client;
+		this.endClient = endClient;
+		this.traineeUserInfo = traineeUserInfo;
+	}
 
 	public int getTraineeId() {
 		return traineeId;
@@ -151,6 +184,14 @@ public class Trainee implements Serializable {
 
 	public void setTrainingStatus(TrainingStatus trainingStatus) {
 		this.trainingStatus = trainingStatus;
+	}
+
+	public Integer getBatchId() {
+		return batchId;
+	}
+
+	public void setBatchId(Integer batchId) {
+		this.batchId = batchId;
 	}
 
 	public String getPhoneNumber() {
@@ -289,11 +330,11 @@ public class Trainee implements Serializable {
 		this.endClient = endClient;
 	}
 
-	public User getTraineeUserInfo() {
+	public Integer getTraineeUserInfo() {
 		return traineeUserInfo;
 	}
 
-	public void setTraineeUserInfo(User traineeUserInfo) {
+	public void setTraineeUserInfo(Integer traineeUserInfo) {
 		this.traineeUserInfo = traineeUserInfo;
 	}
 
@@ -305,6 +346,7 @@ public class Trainee implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((batchId == null) ? 0 : batchId.hashCode());
 		result = prime * result + ((client == null) ? 0 : client.hashCode());
 		result = prime * result + ((college == null) ? 0 : college.hashCode());
 		result = prime * result + ((degree == null) ? 0 : degree.hashCode());
@@ -339,6 +381,11 @@ public class Trainee implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Trainee other = (Trainee) obj;
+		if (batchId == null) {
+			if (other.batchId != null)
+				return false;
+		} else if (!batchId.equals(other.batchId))
+			return false;
 		if (client == null) {
 			if (other.client != null)
 				return false;
@@ -440,39 +487,15 @@ public class Trainee implements Serializable {
 		return true;
 	}
 
-	public Trainee(int traineeId, int resourceId, String name, TrainingStatus trainingStatus, String phoneNumber,
-			String skypeId, String profileUrl, String recruiterName, String college, String degree, String major,
-			String techScreenerName, String projectCompletion, TraineeFlag flagStatus, String flagNotes,
-			Set<Grade> grades, Set<Note> notes, Set<Panel> panelInterviews, String marketingStatus, String client,
-			String endClient, User traineeUserInfo) {
-		super();
-		this.traineeId = traineeId;
-		this.resourceId = resourceId;
-		this.name = name;
-		this.trainingStatus = trainingStatus;
-		this.phoneNumber = phoneNumber;
-		this.skypeId = skypeId;
-		this.profileUrl = profileUrl;
-		this.recruiterName = recruiterName;
-		this.college = college;
-		this.degree = degree;
-		this.major = major;
-		this.techScreenerName = techScreenerName;
-		this.projectCompletion = projectCompletion;
-		this.flagStatus = flagStatus;
-		this.flagNotes = flagNotes;
-		this.grades = grades;
-		this.notes = notes;
-		this.panelInterviews = panelInterviews;
-		this.marketingStatus = marketingStatus;
-		this.client = client;
-		this.endClient = endClient;
-		this.traineeUserInfo = traineeUserInfo;
+	@Override
+	public String toString() {
+		return "Trainee [traineeId=" + traineeId + ", resourceId=" + resourceId + ", name=" + name + ", trainingStatus="
+				+ trainingStatus + ", batchId=" + batchId + ", phoneNumber=" + phoneNumber + ", skypeId=" + skypeId
+				+ ", profileUrl=" + profileUrl + ", recruiterName=" + recruiterName + ", college=" + college
+				+ ", degree=" + degree + ", major=" + major + ", techScreenerName=" + techScreenerName
+				+ ", projectCompletion=" + projectCompletion + ", flagStatus=" + flagStatus + ", flagNotes=" + flagNotes
+				+ ", grades=" + grades + ", notes=" + notes + ", panelInterviews=" + panelInterviews
+				+ ", marketingStatus=" + marketingStatus + ", client=" + client + ", endClient=" + endClient
+				+ ", traineeUserInfo=" + traineeUserInfo + "]";
 	}
-
-	public Trainee() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
 }
