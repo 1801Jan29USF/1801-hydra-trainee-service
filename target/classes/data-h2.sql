@@ -30,7 +30,6 @@ user_id NUMBER(11)
 CREATE TABLE batch(
 trainee_id NUMBER,
 batch_id NUMBER,
-FOREIGN KEY (trainee_id) REFERENCES Trainee(trainee_id),
 PRIMARY KEY (trainee_id, batch_id)
 );
 CREATE TABLE traineegrades(

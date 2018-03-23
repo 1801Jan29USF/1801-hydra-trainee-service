@@ -4,13 +4,17 @@ import java.io.Serializable;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
@@ -49,12 +53,9 @@ public class Trainee implements Serializable {
 	@Column(name = "TRAINING_STATUS")
 	private TrainingStatus trainingStatus;
 
-	// @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-	// @JoinColumn(name = "BATCH_ID", nullable = false)
-	// private Batch batch;
-	
-	@Column(name = "BATCH_ID")
-	private Integer batchId;
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@JoinColumn(name = "BATCH_ID", nullable = false)
+	private Batch batch;
 
 	@Column(name = "PHONE_NUMBER")
 	private String phoneNumber;
@@ -121,10 +122,9 @@ public class Trainee implements Serializable {
 
 	public Trainee() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public Trainee(int traineeId, int resourceId, String name, TrainingStatus trainingStatus, Integer batchId,
+	public Trainee(int traineeId, int resourceId, String name, TrainingStatus trainingStatus, Batch batch,
 			String phoneNumber, String skypeId, String profileUrl, String recruiterName, String college, String degree,
 			String major, String techScreenerName, String projectCompletion, TraineeFlag flagStatus, String flagNotes,
 			Set<Grade> grades, Set<Note> notes, Set<Panel> panelInterviews, String marketingStatus, String client,
@@ -133,7 +133,7 @@ public class Trainee implements Serializable {
 		this.resourceId = resourceId;
 		this.name = name;
 		this.trainingStatus = trainingStatus;
-		this.batchId = batchId;
+		this.batch = batch;
 		this.phoneNumber = phoneNumber;
 		this.skypeId = skypeId;
 		this.profileUrl = profileUrl;
@@ -186,12 +186,12 @@ public class Trainee implements Serializable {
 		this.trainingStatus = trainingStatus;
 	}
 
-	public Integer getBatchId() {
-		return batchId;
+	public Batch getBatch() {
+		return batch;
 	}
 
-	public void setBatchId(Integer batchId) {
-		this.batchId = batchId;
+	public void setBatch(Batch batch) {
+		this.batch = batch;
 	}
 
 	public String getPhoneNumber() {
@@ -346,7 +346,7 @@ public class Trainee implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((batchId == null) ? 0 : batchId.hashCode());
+		result = prime * result + ((batch == null) ? 0 : batch.hashCode());
 		result = prime * result + ((client == null) ? 0 : client.hashCode());
 		result = prime * result + ((college == null) ? 0 : college.hashCode());
 		result = prime * result + ((degree == null) ? 0 : degree.hashCode());
@@ -381,10 +381,10 @@ public class Trainee implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Trainee other = (Trainee) obj;
-		if (batchId == null) {
-			if (other.batchId != null)
+		if (batch == null) {
+			if (other.batch != null)
 				return false;
-		} else if (!batchId.equals(other.batchId))
+		} else if (!batch.equals(other.batch))
 			return false;
 		if (client == null) {
 			if (other.client != null)
@@ -490,7 +490,7 @@ public class Trainee implements Serializable {
 	@Override
 	public String toString() {
 		return "Trainee [traineeId=" + traineeId + ", resourceId=" + resourceId + ", name=" + name + ", trainingStatus="
-				+ trainingStatus + ", batchId=" + batchId + ", phoneNumber=" + phoneNumber + ", skypeId=" + skypeId
+				+ trainingStatus + ", batch=" + batch + ", phoneNumber=" + phoneNumber + ", skypeId=" + skypeId
 				+ ", profileUrl=" + profileUrl + ", recruiterName=" + recruiterName + ", college=" + college
 				+ ", degree=" + degree + ", major=" + major + ", techScreenerName=" + techScreenerName
 				+ ", projectCompletion=" + projectCompletion + ", flagStatus=" + flagStatus + ", flagNotes=" + flagNotes

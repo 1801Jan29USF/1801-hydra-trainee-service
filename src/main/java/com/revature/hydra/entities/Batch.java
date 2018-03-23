@@ -44,9 +44,6 @@ public class Batch implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BATCH_ID_SEQUENCE")
 	@SequenceGenerator(name = "BATCH_ID_SEQUENCE", sequenceName = "BATCH_ID_SEQUENCE")
 	private int batchId;
-	
-	@Column(name = "TRAINEE_ID")
-	private Integer traineeId;
 
 	@Transient
 	@Column(name = "RESOURCE_ID")
