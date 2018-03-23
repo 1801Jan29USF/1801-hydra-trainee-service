@@ -1,5 +1,6 @@
 package com.revature.hydra.entities;
 
+
 import java.io.Serializable;
 import java.util.Set;
 
@@ -14,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -58,6 +60,7 @@ public class Trainer implements Serializable {
 	@Column(name = "TIER")
 	private TrainerRole tier;
 
+	@Transient
 	@OneToMany(mappedBy = "trainer", fetch = FetchType.LAZY)
 	@JsonIgnore
 	private Set<Batch> batches;

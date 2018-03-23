@@ -28,7 +28,7 @@ public class TraineeServiceImpl implements TraineeService {
 	@Override
 	@Transactional
 	public List<Trainee> findAllByBatch(int batchId) {
-		return traineeRepo.findAllByBatchBatchId(batchId);
+		return traineeRepo.findAllByBatchBatchIdAndTrainingStatusNot(batchId, TrainingStatus.DROPPED);
 	}
 
 	@Override

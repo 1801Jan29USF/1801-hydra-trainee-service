@@ -54,7 +54,7 @@ public class Trainee implements Serializable {
 	@Column(name = "TRAINING_STATUS")
 	private TrainingStatus trainingStatus;
 
-	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	@JoinColumn(name = "BATCH_ID", nullable = false)
 	private Batch batch;
 
@@ -84,7 +84,6 @@ public class Trainee implements Serializable {
 
 	@Column(name = "PROJECT_COMPLETION")
 	private String projectCompletion;
-	// end of new columns
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "FLAG_STATUS")
