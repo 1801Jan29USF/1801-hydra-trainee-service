@@ -121,5 +121,4 @@ public class TraineeController {
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
-	
 }
