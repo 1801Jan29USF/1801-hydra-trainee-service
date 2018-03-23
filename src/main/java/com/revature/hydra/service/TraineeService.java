@@ -9,7 +9,7 @@ public interface TraineeService {
 
 	List<Trainee> findAllByBatch(int batchId);
 
-	List<Trainee> findDroppedByBatch(int batchId);
+	//List<Trainee> findDroppedByBatch(int batchId);
 
 	void update(Trainee trainee);
 

@@ -67,11 +67,11 @@ public class TraineeController {
 	//@RequestMapping(value = "/all/trainee/dropped", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	//@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
 	//@PreAuthorize("hasAnyRole('VP', 'QC', 'TRAINER', 'STAGING', 'PANEL')")
-	public ResponseEntity<List<Trainee>> findAllDroppedByBatch(@PathVariable Integer batchId) {
+	/*public ResponseEntity<List<Trainee>> findAllDroppedByBatch(@PathVariable Integer batchId) {
 		log.info("Finding dropped trainees for batch: " + batchId);
 		List<Trainee> trainees = traineeService.findDroppedByBatch(batchId);
 		return new ResponseEntity<>(trainees, HttpStatus.OK);
-	}
+	}*/
 
 	/**
 	 * create a trainee

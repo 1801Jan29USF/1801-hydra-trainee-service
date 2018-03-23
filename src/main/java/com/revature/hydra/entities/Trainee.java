@@ -13,8 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.IdClass;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
@@ -32,6 +31,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table(name = "Trainee")
+@IdClass(TraineeBatch.class)
 public class Trainee implements Serializable {
 
 	private static final long serialVersionUID = -9090223980655307018L;
@@ -53,10 +53,9 @@ public class Trainee implements Serializable {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "TRAINING_STATUS")
 	private TrainingStatus trainingStatus;
-
-	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	@JoinColumn(name = "BATCH_ID", nullable = false)
-	private Batch batch;
+	
+	@OneToMany(mappedBy = "trainee", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Batch> batches;
 
 	@Column(name = "PHONE_NUMBER")
 	private String phoneNumber;
@@ -107,7 +106,6 @@ public class Trainee implements Serializable {
 	@OrderBy(value = "INTERVIEW_DATE DESC")
 	private Set<Panel> panelInterviews = new TreeSet<>();
 
-	// @OneToMany(mappedBy = "trainee", cascade = CascadeType.REMOVE)
 	// entity diagram has a TOTALS field. Don't know what that is
 
 	@Column(name = "MARKETING_STATUS")

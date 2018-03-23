@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Implementation-Title: 1801-hydra-training-service
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: Charles
+Built-By: nacht
 Implementation-Vendor-Id: revature
 Build-Jdk: 1.8.0_161
 Implementation-URL: http://projects.spring.io/spring-boot/1801-hydra-t
