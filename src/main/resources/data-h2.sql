@@ -1,11 +1,11 @@
 DROP TABLE trainee;
-DROP TABLE batch;
+--DROP TABLE batch;
 --DROP TABLE traineegrades;
 --DROP TABLE traineenotes;
 --DROP TABLE traineepanelinterviews;
 --DROP TABLE traineetotals;
 --DROP TABLE traineeuser;
-CREATE TABLE Trainee(
+CREATE TABLE trainee(
 batch_id NUMBER(11),
 resource_id NUMBER(11),
 training_status VARCHAR2(40),
@@ -74,5 +74,4 @@ INSERT INTO trainee(resource_id, training_status, phone_number, skype_id, recrui
    end_client, trainee_id, trainee_name)
    VALUES(1, 'yyhhhhhyh', '3', 'fakeSkype', 'fakeRecruiter', 'fakeUrl', 'fakecollege', 'fakeDegree', 'English', 'fakeTech_Screener',
    'incomplete', 'Red', 'very very bad', 'unmarketable', 'no one', 'still no one', 1, 'not really anyone');
-INSERT INTO batch(trainee_id, batch_id) VALUES(1, 1);
 COMMIT;
