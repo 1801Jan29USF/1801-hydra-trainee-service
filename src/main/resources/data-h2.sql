@@ -58,9 +58,16 @@ FOREIGN KEY (trainee_id) REFERENCES Trainee(trainee_id),
 PRIMARY KEY (trainee_id, totals_id)
 );
 CREATE TABLE traineeuser(
-trainee_id NUMBER,
 user_id NUMBER,
-FOREIGN KEY (trainee_id) REFERENCES Trainee(trainee_id)
+first_name VARCHAR2(256),
+last_name VARCHAR2(256),
+email VARCHAR2(256),
+password VARCHAR2(256),
+backup_password VARCHAR2(256),
+role VARCHAR2(256),
+home_phone VARCHAR2(256),
+mobile_phone VARCHAR2(256),
+token VARCHAR2(256)
 );
 INSERT INTO trainee(resource_id, training_status, phone_number, skype_id, recruiter_name, profile_url, college,
    degree, major, tech_screener, project_completion, flag_status, flag_notes, marketing_status, client,

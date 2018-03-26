@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -32,7 +33,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "Trainee")
 public class Trainee implements Serializable {
-
 	private static final long serialVersionUID = -9090223980655307018L;
 
 	@Id
@@ -117,8 +117,9 @@ public class Trainee implements Serializable {
 	@Column(name = "END_CLIENT")
 	private String endClient;
 
-	@Column(name = "USER_ID")
-	private Integer traineeUserInfo;
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "USER_ID")
+	private User traineeUserInfo;
 
 	public Trainee() {
 		super();
@@ -128,7 +129,7 @@ public class Trainee implements Serializable {
 			String phoneNumber, String skypeId, String profileUrl, String recruiterName, String college, String degree,
 			String major, String techScreenerName, String projectCompletion, TraineeFlag flagStatus, String flagNotes,
 			Set<Grade> grades, Set<Note> notes, Set<Panel> panelInterviews, String marketingStatus, String client,
-			String endClient, Integer traineeUserInfo) {
+			String endClient, User traineeUserInfo) {
 		this.traineeId = traineeId;
 		this.resourceId = resourceId;
 		this.name = name;
@@ -330,11 +331,11 @@ public class Trainee implements Serializable {
 		this.endClient = endClient;
 	}
 
-	public Integer getTraineeUserInfo() {
+	public User getTraineeUserInfo() {
 		return traineeUserInfo;
 	}
 
-	public void setTraineeUserInfo(Integer traineeUserInfo) {
+	public void setTraineeUserInfo(User traineeUserInfo) {
 		this.traineeUserInfo = traineeUserInfo;
 	}
 

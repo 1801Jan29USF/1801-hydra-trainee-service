@@ -11,26 +11,26 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "User")
 public class User {
-	
+
 	@Id
 	@Column(name = "USER_ID")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_ID_SEQUENCE")
-	@SequenceGenerator(name= "USER_ID_SEQUENCE", sequenceName = "USER_ID_SEQUENCE")
+	@SequenceGenerator(name = "USER_ID_SEQUENCE", sequenceName = "USER_ID_SEQUENCE")
 	private int userId;
-	
+
 	@Column(name = "FIRST_NAME")
 	private String firstName;
 	@Column(name = "MIDDLE_NAME")
 	private String middleName;
 	@Column(name = "LAST_NAME")
 	private String lastName;
-	
+
 	@Column(name = "EMAIL")
 	private String email;
 	@Column(name = "PASSWORD")
 	private String password;
 	@Column(name = "BACKUP_PASSWORD")
-	private String backup_password;
+	private String backupPassword;
 
 	@Column(name = "ROLE")
 	private String role;
@@ -38,9 +38,28 @@ public class User {
 	private String mobilePhone;
 	@Column(name = "HOME_PHONE")
 	private String homePhone;
-	
+
 	@Column(name = "TOKEN")
 	private String token;
+
+	public User() {
+		super();
+	}
+
+	public User(int userId, String firstName, String middleName, String lastName, String email, String password,
+			String backupPassword, String role, String mobilePhone, String homePhone, String token) {
+		this.userId = userId;
+		this.firstName = firstName;
+		this.middleName = middleName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.backupPassword = backupPassword;
+		this.role = role;
+		this.mobilePhone = mobilePhone;
+		this.homePhone = homePhone;
+		this.token = token;
+	}
 
 	public int getUserId() {
 		return userId;
@@ -90,12 +109,12 @@ public class User {
 		this.password = password;
 	}
 
-	public String getBackup_password() {
-		return backup_password;
+	public String getBackupPassword() {
+		return backupPassword;
 	}
 
-	public void setBackup_password(String backup_password) {
-		this.backup_password = backup_password;
+	public void setBackupPassword(String backupPassword) {
+		this.backupPassword = backupPassword;
 	}
 
 	public String getRole() {
@@ -134,7 +153,7 @@ public class User {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((backup_password == null) ? 0 : backup_password.hashCode());
+		result = prime * result + ((backupPassword == null) ? 0 : backupPassword.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((homePhone == null) ? 0 : homePhone.hashCode());
@@ -157,10 +176,10 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (backup_password == null) {
-			if (other.backup_password != null)
+		if (backupPassword == null) {
+			if (other.backupPassword != null)
 				return false;
-		} else if (!backup_password.equals(other.backup_password))
+		} else if (!backupPassword.equals(other.backupPassword))
 			return false;
 		if (email == null) {
 			if (other.email != null)
@@ -212,26 +231,11 @@ public class User {
 		return true;
 	}
 
-	public User(int userId, String firstName, String middleName, String lastName, String email, String password,
-			String backup_password, String role, String mobilePhone, String homePhone, String token) {
-		super();
-		this.userId = userId;
-		this.firstName = firstName;
-		this.middleName = middleName;
-		this.lastName = lastName;
-		this.email = email;
-		this.password = password;
-		this.backup_password = backup_password;
-		this.role = role;
-		this.mobilePhone = mobilePhone;
-		this.homePhone = homePhone;
-		this.token = token;
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", firstName=" + firstName + ", middleName=" + middleName + ", lastName="
+				+ lastName + ", email=" + email + ", password=" + password + ", backupPassword=" + backupPassword
+				+ ", role=" + role + ", mobilePhone=" + mobilePhone + ", homePhone=" + homePhone + ", token=" + token
+				+ "]";
 	}
-
-	public User() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	
-	
 }
