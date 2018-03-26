@@ -20,53 +20,50 @@ import com.revature.hydra.entities.Trainee;
 import com.revature.hydra.service.TraineeService;
 
 /**
- * Services requests for Trainer, Trainee, and Batch information
+ * Handles all Janus requests for Trainee resources.
  *
- * @author Patrick Walsh
+ * @author Charles Courtois
  *
  */
 @RestController
-//@PreAuthorize("isAuthenticated()")
+// @PreAuthorize("isAuthenticated()")
 @CrossOrigin
 @RequestMapping("trainees")
 public class TraineeController {
-
 	private static final Logger log = Logger.getLogger(TraineeController.class);
+
 	@Autowired
 	private TraineeService traineeService;
 
-
-	/*
-	 *******************************************************
-	 * TRAINEE SERVICES
-	 *
-	 *******************************************************
-	 */
-	
 	/**
-	 * get all trainees within a batch
-	 * @param batchId - id of the batch desired
-	 * @return list of trainees within that batch id
+	 * Returns all trainees from a batch that has the input batch id. The old
+	 * endpoint url was "/all/trainee", in Caliber the old url was
+	 * "${context}all/trainee?batch=${batchId}".
+	 * 
+	 * @param batchId
+	 *            - id of the batch desired.
+	 * @return The list of trainees within that batch with the given batchId.
 	 */
 	@GetMapping("batch/{batchId}")
-	//@RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE) //possibly not used 2/8/18, 10:53am edt
-	//@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
-	//@PreAuthorize("hasAnyRole('VP', 'QC', 'TRAINER', 'STAGING', 'PANEL')")
+	// @PreAuthorize("hasAnyRole('VP', 'QC', 'TRAINER', 'STAGING', 'PANEL')")
 	public ResponseEntity<List<Trainee>> findAllByBatch(@PathVariable Integer batchId) {
 		log.info("Finding trainees for batch: " + batchId);
 		List<Trainee> trainees = traineeService.findAllByBatch(batchId);
 		return new ResponseEntity<>(trainees, HttpStatus.OK);
 	}
-	
+
 	/**
-	 * get all dropped trainees within a batch
-	 * @param batchId - id of the batch desired
-	 * @return list of dropped trainees within that batch id
+	 * Returns all dropped trainees from a batch that has the input batch id. The
+	 * old endpoint url was "/all/trainee/dropped", in Caliber the old url was
+	 * "${context}all/trainee/dropped?batch=${batchId}".
+	 * 
+	 * @param batchId
+	 *            - id of the batch desired.
+	 * @return The list of dropped trainees within that batch with the given
+	 *         batchId.
 	 */
 	@GetMapping("batch/dropped/{batchId}")
-	//@RequestMapping(value = "/all/trainee/dropped", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	//@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
-	//@PreAuthorize("hasAnyRole('VP', 'QC', 'TRAINER', 'STAGING', 'PANEL')")
+	// @PreAuthorize("hasAnyRole('VP', 'QC', 'TRAINER', 'STAGING', 'PANEL')")
 	public ResponseEntity<List<Trainee>> findAllDroppedByBatch(@PathVariable Integer batchId) {
 		log.info("Finding dropped trainees for batch: " + batchId);
 		List<Trainee> trainees = traineeService.findDroppedByBatch(batchId);
@@ -74,14 +71,15 @@ public class TraineeController {
 	}
 
 	/**
-	 * create a trainee
-	 * @param trainee - the trainee to be created
-	 * @return the created trainee
+	 * Creates a new trainee. The old endpoint url was "/all/trainee/create", in
+	 * Caliber the old url was "${context}all/trainee/create".
+	 * 
+	 * @param trainee
+	 *            - the trainee to be created.
+	 * @return The newly created trainee.
 	 */
 	@PostMapping
-	//@RequestMapping(value = "/all/trainee/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	//@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
-	//@PreAuthorize("hasAnyRole('VP', 'QC', 'TRAINER', 'PANEL')")
+	// @PreAuthorize("hasAnyRole('VP', 'QC', 'TRAINER', 'PANEL')")
 	public ResponseEntity<Trainee> createTrainee(@RequestBody Trainee trainee) {
 		log.info("Saving trainee: " + trainee);
 		traineeService.save(trainee);
@@ -89,14 +87,15 @@ public class TraineeController {
 	}
 
 	/**
-	 * update a given trainee
-	 * @param trainee - the trainee to be updated
-	 * @return a response entity signifying a successful update
+	 * Updates the given trainee. The old endpoint url was "/all/trainee/update", in
+	 * Caliber the old url was "${context}all/trainee/update".
+	 * 
+	 * @param trainee
+	 *            - the trainee to be updated.
+	 * @return A response entity signifying a successful update.
 	 */
 	@PutMapping
-	//@RequestMapping(value = "/all/trainee/update", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	//@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
-	//@PreAuthorize("hasAnyRole('VP', 'QC', 'TRAINER','PANEL')")
+	// @PreAuthorize("hasAnyRole('VP', 'QC', 'TRAINER','PANEL')")
 	public ResponseEntity<Void> updateTrainee(@RequestBody Trainee trainee) {
 		log.info("Updating trainee: " + trainee);
 		traineeService.update(trainee);
@@ -104,15 +103,16 @@ public class TraineeController {
 	}
 
 	/**
-	 * delete a given trainee
+	 * Deletes the given trainee. The old endpoint url was
+	 * "/all/trainee/delete/{id}", in Caliber the old url was
+	 * "${context}all/trainee/delete/${traineeId}"
 	 *
-	 * @param traineeId - the id of the trainee to delete
-	 * @return a response entity signifying a successful deletion
+	 * @param traineeId
+	 *            - the id of the trainee to delete
+	 * @return A response entity signifying a successful deletion
 	 */
 	@DeleteMapping("/{traineeId}")
-	//@RequestMapping(value = "/all/trainee/delete/{id}", method = RequestMethod.DELETE)
-	//@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
-	//@PreAuthorize("hasAnyRole('VP', 'QC', 'TRAINER','PANEL')")
+	// @PreAuthorize("hasAnyRole('VP', 'QC', 'TRAINER','PANEL')")
 	public ResponseEntity<Void> deleteTrainee(@PathVariable Integer traineeId) {
 		Trainee trainee = new Trainee();
 		trainee.setTraineeId(traineeId);
@@ -120,6 +120,5 @@ public class TraineeController {
 		traineeService.delete(trainee);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-	
-	
+
 }

@@ -4,6 +4,13 @@ import java.util.List;
 
 import com.revature.hydra.entities.Trainee;
 
+/**
+ * Our Hydra Trainee interface. Provides all of the methods that our
+ * implementation will need.
+ * 
+ * @author Charles Courtois
+ *
+ */
 public interface TraineeService {
 	Trainee save(Trainee trainee);
 
@@ -14,5 +21,4 @@ public interface TraineeService {
 	void update(Trainee trainee);
 
 	void delete(Trainee trainee);
-
 }
