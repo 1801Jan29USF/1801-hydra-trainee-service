@@ -4,8 +4,11 @@ import java.io.Serializable;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -14,7 +17,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
@@ -53,8 +55,9 @@ public class Trainee implements Serializable {
 	@Column(name = "TRAINING_STATUS")
 	private TrainingStatus trainingStatus;
 
-	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-	@JoinColumn(name = "BATCH_ID", nullable = false)
+	@Embedded
+	@AttributeOverrides(value = { @AttributeOverride(name = "batchId", column = @Column(name = "batch_id"))
+	})
 	private Batch batch;
 
 	@Column(name = "PHONE_NUMBER")

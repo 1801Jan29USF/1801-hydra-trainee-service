@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Assessment implements Serializable {
 
 	private static final long serialVersionUID = 5030264218154828822L;
-	
+
 	@Id
 	@Column(name = "ASSESSMENT_ID")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ASSESSMENT_ID_SEQUENCE")
@@ -47,14 +47,14 @@ public class Assessment implements Serializable {
 	/**
 	 * Batch ID reference
 	 */
-	@NotNull
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "BATCH_ID", nullable = false)
-	private Batch batch;
+	// @NotNull
+	// @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	// @JoinColumn(name = "BATCH_ID", nullable = false)
+	// private Batch batch;
 
 	/**
-	 * Raw numerical score before calculations This value is the maximum number
-	 * of points that can be earned on this assignment.
+	 * Raw numerical score before calculations This value is the maximum number of
+	 * points that can be earned on this assignment.
 	 */
 	@Min(value = 1)
 	@Column(name = "RAW_SCORE", nullable = false)
@@ -85,15 +85,15 @@ public class Assessment implements Serializable {
 		super();
 	}
 
-	public Assessment(String title, Batch batch, Integer rawScore, AssessmentType type, Integer week,
-			Category category) {
-		super();
+	public Assessment(long assessmentId, String title, int rawScore, AssessmentType type, short week, Category category,
+			Set<Grade> grades) {
+		this.assessmentId = assessmentId;
 		this.title = title;
-		this.batch = batch;
 		this.rawScore = rawScore;
 		this.type = type;
-		this.week = week.shortValue();
+		this.week = week;
 		this.category = category;
+		this.grades = grades;
 	}
 
 	public long getAssessmentId() {
@@ -105,19 +105,11 @@ public class Assessment implements Serializable {
 	}
 
 	public String getTitle() {
-		return this.category.getSkillCategory() + " " + this.type.name();
+		return title;
 	}
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public Batch getBatch() {
-		return batch;
-	}
-
-	public void setBatch(Batch batch) {
-		this.batch = batch;
 	}
 
 	public int getRawScore() {
@@ -164,8 +156,9 @@ public class Assessment implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((batch == null) ? 0 : batch.hashCode());
+		result = prime * result + (int) (assessmentId ^ (assessmentId >>> 32));
 		result = prime * result + ((category == null) ? 0 : category.hashCode());
+		result = prime * result + ((grades == null) ? 0 : grades.hashCode());
 		result = prime * result + rawScore;
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
@@ -182,15 +175,17 @@ public class Assessment implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Assessment other = (Assessment) obj;
-		if (batch == null) {
-			if (other.batch != null)
-				return false;
-		} else if (!batch.equals(other.batch))
+		if (assessmentId != other.assessmentId)
 			return false;
 		if (category == null) {
 			if (other.category != null)
 				return false;
 		} else if (!category.equals(other.category))
+			return false;
+		if (grades == null) {
+			if (other.grades != null)
+				return false;
+		} else if (!grades.equals(other.grades))
 			return false;
 		if (rawScore != other.rawScore)
 			return false;
@@ -208,7 +203,7 @@ public class Assessment implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Assessment [assessmentId= "+assessmentId+" title=" + title + ", batch=" + batch + ", rawScore=" + rawScore + ", type=" + type + ", week=" + week + ", category="
-				+ category + "]";
+		return "Assessment [assessmentId=" + assessmentId + ", title=" + title + ", rawScore=" + rawScore + ", type="
+				+ type + ", week=" + week + ", category=" + category + ", grades=" + grades + "]";
 	}
 }
