@@ -25,5 +25,5 @@ public interface TraineeRepository extends JpaRepository<Trainee, Integer> {
 	Trainee findOneByResourceId(String asString);
 
 	// Supposed to be used by ListenerRepoDispatcher
-//	List<Trainee> findAllByBatchId(int asInt);
+	List<Trainee> findAllByBatchBatchId(int asInt);
 }
