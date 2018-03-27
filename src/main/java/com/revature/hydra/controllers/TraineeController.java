@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.hydra.entities.Trainee;
+import com.revature.hydra.service.SPAGHETTISENDER;
 import com.revature.hydra.service.TraineeService;
 
 /**
@@ -34,6 +35,8 @@ public class TraineeController {
 
 	@Autowired
 	private TraineeService traineeService;
+	@Autowired
+	private SPAGHETTISENDER ss;
 
 	/**
 	 * Returns all trainees from a batch that has the input batch id. The old
@@ -119,6 +122,13 @@ public class TraineeController {
 		log.info("Deleting trainee: " + traineeId);
 		traineeService.delete(trainee);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+	
+	@GetMapping("/garbage/{traineeId}")
+	public ResponseEntity<Trainee> garbage(@PathVariable Integer traineeId) {
+		System.out.println("Hellooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+		ss.sendSingleTraineeRequest(traineeId);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 }

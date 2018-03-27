@@ -54,6 +54,8 @@ public class TraineeListenerService {
 		JsonParser parser = new JsonParser();
 		JsonElement element = parser.parse(message);
 		JsonObject request = element.getAsJsonObject();
+		
+		System.out.println("TEEESSSSTTTTTTTTT");
 
 		return listenerDispatcher.processListTraineeRequest(request);
 	}

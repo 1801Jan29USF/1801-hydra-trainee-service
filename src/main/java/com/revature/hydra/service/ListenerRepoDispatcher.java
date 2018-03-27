@@ -42,7 +42,7 @@ public class ListenerRepoDispatcher {
 		} else if(methodName.equals("findOneByResourceId")) {
 			result = traineeRepository.findOneByResourceId(request.get("resourceId").getAsString());
 		}
-		return result;
+		return result;	
 	}
 	
 	/**
