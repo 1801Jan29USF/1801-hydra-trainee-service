@@ -56,28 +56,22 @@ public class ListenerRepoDispatcher {
 	 * @return List of Trainee 
 	 */
 	public List<Trainee> processListTraineeRequest(JsonObject request) {
-		System.out.println("Hey hello");
 		List<Trainee> result = null;
 		String methodName = request.get("methodName").getAsString();
 		
 		if(methodName.equals("findAll")) {
-			System.out.println("find all");
 			result = traineeRepository.findAll();
-		} else if(methodName.equals("findAllByBatchId")){
-			System.out.println("find batch");
-//			result = traineeRepository.findAllByBatchId(request.get("batchId").getAsInt());
+			// Batch requests should be sent to the batch microservice
+//		} else if(methodName.equals("findAllByBatchId")){
+//			result = traineeRepository.findAllByBatchBatchId(request.get("batchId").getAsInt());
 		} else if(methodName.equals("delete")) {
-			System.out.println("delete");
-//			result = traineeRepository.findAllByBatchId(request.get("batchId").getAsInt());
-//			for(Trainee t : result) {
-//				System.out.println(t);
-//				traineeRepository.delete(t.getTraineeId());
-//			}
+			result = traineeRepository.findAllByBatchBatchId(request.get("batchId").getAsInt());
+			for(Trainee t : result) {
+				traineeRepository.delete(t.getTraineeId());
+			}
 			result = null;
 		}
-		
-		System.out.println("return");
-		
+				
 		return result;
 	}
 }
