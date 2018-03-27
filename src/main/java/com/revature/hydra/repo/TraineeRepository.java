@@ -21,4 +21,9 @@ public interface TraineeRepository extends JpaRepository<Trainee, Integer> {
 	// A custom query used in the findDroppedByBatch method in the
 	// TraineeServiceImpl class.
 	List<Trainee> findAllByBatchBatchIdAndTrainingStatus(Integer batchId, TrainingStatus status);
+
+	Trainee findOneByResourceId(String asString);
+
+	// Supposed to be used by ListenerRepoDispatcher
+//	List<Trainee> findAllByBatchId(int asInt);
 }
