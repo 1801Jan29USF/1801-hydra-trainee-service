@@ -6,18 +6,13 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
@@ -33,19 +28,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The type Batch.
  */
-@Entity
-@Table(name = "BATCH")
+// @Entity
+@Embeddable
+// @Table(name = "BATCH")
 public class Batch implements Serializable {
 	private static final long serialVersionUID = -5755409643112884001L;
 
-	@Id
+	// @Id
 	@Column(name = "BATCH_ID")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BATCH_ID_SEQUENCE")
-	@SequenceGenerator(name = "BATCH_ID_SEQUENCE", sequenceName = "BATCH_ID_SEQUENCE")
+	// @GeneratedValue(strategy = GenerationType.SEQUENCE, generator =
+	// "BATCH_ID_SEQUENCE")
+	// @SequenceGenerator(name = "BATCH_ID_SEQUENCE", sequenceName =
+	// "BATCH_ID_SEQUENCE")
 	private int batchId;
-	
-	@JoinColumn(name = "TRAINEE_ID")
-	private int traineeId;
+
+	// @Column(name = "TRAINEE_ID")
+	// private int traineeId;
 
 	@Transient
 	@Column(name = "RESOURCE_ID")
