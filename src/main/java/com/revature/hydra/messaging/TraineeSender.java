@@ -1,19 +1,24 @@
-package com.revature.hydra.service.messaging;
+package com.revature.hydra.messaging;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
+
+import org.springframework.stereotype.Service;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
+@Service 
 public class TraineeSender {
 
 	private static final String EXCHANGE_NAME = "hydra.trainee.exchange";
 
 	public void send () throws IOException, TimeoutException {
 		ConnectionFactory factory = new ConnectionFactory();
-		factory.setHost("localhost");
+		factory.setUsername("test");
+		factory.setPassword("test");
+		factory.setHost("10.226.106.160");
 		Connection connection = factory.newConnection();
 		Channel channel = connection.createChannel();
 		

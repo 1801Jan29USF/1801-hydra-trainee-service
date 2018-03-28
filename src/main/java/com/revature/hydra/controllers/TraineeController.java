@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.hydra.entities.Trainee;
+import com.revature.hydra.messaging.TraineeReceiver;
+import com.revature.hydra.messaging.TraineeSender;
 import com.revature.hydra.service.TraineeService;
-import com.revature.hydra.service.messaging.TraineeReceiver;
-import com.revature.hydra.service.messaging.TraineeSender;
 
 /**
  * Handles all Janus requests for Trainee resources.

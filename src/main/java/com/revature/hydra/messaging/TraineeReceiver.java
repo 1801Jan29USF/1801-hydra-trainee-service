@@ -1,4 +1,4 @@
-package com.revature.hydra.service.messaging;
+package com.revature.hydra.messaging;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -24,7 +24,7 @@ public class TraineeReceiver {
 		Connection connection = factory.newConnection();
 		Channel channel = connection.createChannel();
 		
-		channel.exchangeDeclare(EXCHANGE_NAME, "");
+		channel.exchangeDeclare(EXCHANGE_NAME, "fanout");
 		String queueName = channel.queueDeclare().getQueue();
 		channel.queueBind(queueName, EXCHANGE_NAME, "");
 		
