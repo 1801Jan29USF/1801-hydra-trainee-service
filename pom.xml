@@ -133,6 +133,12 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-stream-rabbit</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.rabbitmq</groupId>
+			<artifactId>amqp-client</artifactId>
+			<version>3.6.6</version>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>

@@ -1,6 +1,8 @@
 package com.revature.hydra.controllers;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.hydra.entities.Trainee;
-import com.revature.hydra.service.SPAGHETTISENDER;
 import com.revature.hydra.service.TraineeService;
+import com.revature.hydra.service.messaging.TraineeReceiver;
+import com.revature.hydra.service.messaging.TraineeSender;
 
 /**
  * Handles all Janus requests for Trainee resources.
@@ -35,8 +38,6 @@ public class TraineeController {
 
 	@Autowired
 	private TraineeService traineeService;
-	@Autowired
-	private SPAGHETTISENDER ss;
 
 	/**
 	 * Returns all trainees from a batch that has the input batch id. The old
@@ -124,11 +125,30 @@ public class TraineeController {
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
-	@GetMapping("/garbage/{traineeId}")
-	public ResponseEntity<Trainee> garbage(@PathVariable Integer traineeId) {
-		System.out.println("Hellooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
-		ss.sendSingleTraineeRequest(traineeId);
-		return new ResponseEntity<>(HttpStatus.OK);
+	@Autowired
+	private TraineeReceiver tr;
+	@Autowired
+	private TraineeSender ts;
+	
+	@GetMapping("testing")
+	public void messaging() {
+		System.out.println("Controller has been reached.");
+		try {
+			tr.receive();
+		} catch (IOException e) {
+			System.out.println("tr io exception");
+		} catch (TimeoutException e) {
+			System.out.println("tr timeout exception");
+		}
+		
+		try {
+			ts.send();
+		} catch (IOException e) {
+			System.out.println("ts io exception");
+		} catch (TimeoutException e) {
+			System.out.println("ts timeout exception");
+			e.printStackTrace();
+		}
+		
 	}
-
 }
