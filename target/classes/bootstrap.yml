@@ -1,6 +1,0 @@
-spring:
-  application:
-    name: trainee
-  cloud:
-    config:
-      uri: http://35.183.1.239:8888

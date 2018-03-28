@@ -1,8 +1,6 @@
 package com.revature.hydra.entities;
 
 import java.io.Serializable;
-import java.util.Set;
-import java.util.TreeSet;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -47,7 +45,7 @@ public class Trainee implements Serializable {
 	private String trainingStatus;
 
 	@Embedded
-	@AttributeOverrides(value = { @AttributeOverride(name = "batchId", column = @Column(name = "batch_id")) })
+	@AttributeOverrides(value = { @AttributeOverride(name = "batchId", column = @Column(name = "BATCH_ID")) })
 	private Batch batch;
 
 	@Column(name = "PHONE_NUMBER")
@@ -85,16 +83,16 @@ public class Trainee implements Serializable {
 	private String flagNotes;
 
 	@JsonIgnore
-	@Column()
-	private Set<String> grades;
+	@Column(name = "GRADES")
+	private String grades;
 
 	@JsonIgnore
-	@Column()
-	private Set<String> notes;
+	@Column(name = "NOTES")
+	private String notes;
 
 	@JsonIgnore
 	@OrderBy(value = "INTERVIEW_DATE DESC")
-	private Set<String> panelInterviews = new TreeSet<>();
+	private String panelInterviews;
 
 	@Column(name = "MARKETING_STATUS")
 	private String marketingStatus;
@@ -115,8 +113,8 @@ public class Trainee implements Serializable {
 
 	public Trainee(int traineeId, int resourceId, String trainingStatus, Batch batch, String phoneNumber,
 			String skypeId, String profileUrl, String recruiterName, String college, String degree, String major,
-			String techScreenerName, String projectCompletion, String flagStatus, String flagNotes, Set<String> grades,
-			Set<String> notes, Set<String> panelInterviews, String marketingStatus, String client, String endClient,
+			String techScreenerName, String projectCompletion, String flagStatus, String flagNotes, String grades,
+			String notes, String panelInterviews, String marketingStatus, String client, String endClient,
 			User traineeUserInfo) {
 		this.traineeId = traineeId;
 		this.resourceId = resourceId;
@@ -262,27 +260,27 @@ public class Trainee implements Serializable {
 		this.flagNotes = flagNotes;
 	}
 
-	public Set<String> getGrades() {
+	public String getGrades() {
 		return grades;
 	}
 
-	public void setGrades(Set<String> grades) {
+	public void setGrades(String grades) {
 		this.grades = grades;
 	}
 
-	public Set<String> getNotes() {
+	public String getNotes() {
 		return notes;
 	}
 
-	public void setNotes(Set<String> notes) {
+	public void setNotes(String notes) {
 		this.notes = notes;
 	}
 
-	public Set<String> getPanelInterviews() {
+	public String getPanelInterviews() {
 		return panelInterviews;
 	}
 
-	public void setPanelInterviews(Set<String> panelInterviews) {
+	public void setPanelInterviews(String panelInterviews) {
 		this.panelInterviews = panelInterviews;
 	}
 

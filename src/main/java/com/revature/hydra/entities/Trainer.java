@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * The type Trainer.
  */
 @Entity
-@Table(name = "CALIBER_TRAINER")
+@Table(name = "TRAINER")
 public class Trainer implements Serializable {
 
 	private static final long serialVersionUID = -2546407792912483570L;

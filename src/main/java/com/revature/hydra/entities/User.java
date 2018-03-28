@@ -9,7 +9,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "User")
+@Table(name = "TRAINEEUSER")
 public class User {
 
 	@Id
@@ -20,22 +20,28 @@ public class User {
 
 	@Column(name = "FIRST_NAME")
 	private String firstName;
+
 	@Column(name = "MIDDLE_NAME")
 	private String middleName;
+
 	@Column(name = "LAST_NAME")
 	private String lastName;
 
 	@Column(name = "EMAIL")
 	private String email;
+
 	@Column(name = "PASSWORD")
 	private String password;
+
 	@Column(name = "BACKUP_PASSWORD")
 	private String backupPassword;
 
 	@Column(name = "ROLE")
 	private String role;
+
 	@Column(name = "MOBILE_PHONE")
 	private String mobilePhone;
+
 	@Column(name = "HOME_PHONE")
 	private String homePhone;
 

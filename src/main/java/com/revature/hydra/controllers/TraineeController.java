@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,9 +27,8 @@ import com.revature.hydra.service.TraineeService;
  *
  */
 @RestController
-// @PreAuthorize("isAuthenticated()")
 @CrossOrigin
-@RequestMapping("trainees")
+@RequestMapping(value = "trainees", produces = MediaType.APPLICATION_JSON_VALUE)
 public class TraineeController {
 	private static final Logger log = Logger.getLogger(TraineeController.class);
 
