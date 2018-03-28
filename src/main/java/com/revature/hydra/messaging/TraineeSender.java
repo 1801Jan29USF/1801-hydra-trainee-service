@@ -16,9 +16,7 @@ public class TraineeSender {
 
 	public void send () throws IOException, TimeoutException {
 		ConnectionFactory factory = new ConnectionFactory();
-		factory.setUsername("test");
-		factory.setPassword("test");
-		factory.setHost("10.226.106.160");
+		factory.setHost("localhost");
 		Connection connection = factory.newConnection();
 		Channel channel = connection.createChannel();
 		
