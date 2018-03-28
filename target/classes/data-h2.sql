@@ -25,7 +25,6 @@ marketing_status VARCHAR2(50),
 client VARCHAR2(200),
 end_client VARCHAR2(200),
 trainee_id NUMBER PRIMARY KEY,
-trainee_name VARCHAR2(256) NOT NULL,
 user_id NUMBER(200)
 );
 

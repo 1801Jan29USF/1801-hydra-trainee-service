@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.hydra.entities.Trainee;
-import com.revature.hydra.entities.TrainingStatus;
 import com.revature.hydra.repo.TraineeRepository;
 
 /**
@@ -42,7 +41,7 @@ public class TraineeServiceImpl implements TraineeService {
 	@Override
 	@Transactional
 	public List<Trainee> findAllByBatch(int batchId) {
-		return traineeRepo.findAllByBatchBatchIdAndTrainingStatusNot(batchId, TrainingStatus.DROPPED);
+		return traineeRepo.findAllByBatchBatchIdAndTrainingStatusNot(batchId, "Dropped");
 	}
 
 	/**
@@ -52,7 +51,7 @@ public class TraineeServiceImpl implements TraineeService {
 	@Override
 	@Transactional
 	public List<Trainee> findDroppedByBatch(int batchId) {
-		return traineeRepo.findAllByBatchBatchIdAndTrainingStatus(batchId, TrainingStatus.DROPPED);
+		return traineeRepo.findAllByBatchBatchIdAndTrainingStatus(batchId, "Dropped");
 	}
 
 	/**
