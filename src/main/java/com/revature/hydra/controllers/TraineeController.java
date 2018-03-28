@@ -36,37 +36,27 @@ public class TraineeController {
 	private TraineeService traineeService;
 
 	/**
-	 * Returns all trainees from a batch that has the input batch id. The old
-	 * endpoint url was "/all/trainee", in Caliber the old url was
-	 * "${context}all/trainee?batch=${batchId}".
+	 * Returns all trainees from a batch that has the input batch id and input
+	 * status. Merged two old endpoints into this one. The old endpoint urls were
+	 * "/all/trainee" and "/all/trainee/dropped", in Caliber the old urls were
+	 * "${context}all/trainee?batch=${batchId}" and
+	 * "${context}all/trainee/dropped?batch=${batchId}".
 	 * 
 	 * @param batchId
 	 *            - id of the batch desired.
 	 * @return The list of trainees within that batch with the given batchId.
 	 */
-	@GetMapping("batch/{batchId}")
+	@GetMapping("batch/{id}/status/{status}")
 	// @PreAuthorize("hasAnyRole('VP', 'QC', 'TRAINER', 'STAGING', 'PANEL')")
-	public ResponseEntity<List<Trainee>> findAllByBatch(@PathVariable Integer batchId) {
-		log.info("Finding trainees for batch: " + batchId);
-		List<Trainee> trainees = traineeService.findAllByBatch(batchId);
-		return new ResponseEntity<>(trainees, HttpStatus.OK);
-	}
-
-	/**
-	 * Returns all dropped trainees from a batch that has the input batch id. The
-	 * old endpoint url was "/all/trainee/dropped", in Caliber the old url was
-	 * "${context}all/trainee/dropped?batch=${batchId}".
-	 * 
-	 * @param batchId
-	 *            - id of the batch desired.
-	 * @return The list of dropped trainees within that batch with the given
-	 *         batchId.
-	 */
-	@GetMapping("batch/dropped/{batchId}")
-	// @PreAuthorize("hasAnyRole('VP', 'QC', 'TRAINER', 'STAGING', 'PANEL')")
-	public ResponseEntity<List<Trainee>> findAllDroppedByBatch(@PathVariable Integer batchId) {
-		log.info("Finding dropped trainees for batch: " + batchId);
-		List<Trainee> trainees = traineeService.findDroppedByBatch(batchId);
+	public ResponseEntity<List<Trainee>> findAllByBatchAndStatus(@PathVariable Integer id,
+			@PathVariable String status) {
+		log.info("Finding trainees for batch: " + id + "with status: " + status);
+		List<Trainee> trainees;
+		if ("Dropped".equalsIgnoreCase(status)) {
+			trainees = traineeService.findDroppedByBatch(id);
+		} else {
+			trainees = traineeService.findAllByBatch(id);
+		}
 		return new ResponseEntity<>(trainees, HttpStatus.OK);
 	}
 
