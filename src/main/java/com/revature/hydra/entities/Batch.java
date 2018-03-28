@@ -7,8 +7,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -28,22 +26,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The type Batch.
  */
-// @Entity
 @Embeddable
-// @Table(name = "BATCH")
 public class Batch implements Serializable {
 	private static final long serialVersionUID = -5755409643112884001L;
 
-	// @Id
 	@Column(name = "BATCH_ID")
-	// @GeneratedValue(strategy = GenerationType.SEQUENCE, generator =
-	// "BATCH_ID_SEQUENCE")
-	// @SequenceGenerator(name = "BATCH_ID_SEQUENCE", sequenceName =
-	// "BATCH_ID_SEQUENCE")
 	private int batchId;
-
-	// @Column(name = "TRAINEE_ID")
-	// private int traineeId;
 
 	@Transient
 	@Column(name = "RESOURCE_ID")
@@ -68,15 +56,13 @@ public class Batch implements Serializable {
 
 	@Transient
 	@NotNull
-	@Enumerated(EnumType.STRING)
 	@Column(name = "SKILL_TYPE")
-	private SkillType skillType;
+	private String skillType;
 
 	@Transient
 	@NotNull
-	@Enumerated(EnumType.STRING)
 	@Column(name = "TRAINING_TYPE")
-	private TrainingType trainingType;
+	private String trainingType;
 
 	@Transient
 	@JsonFormat(timezone = "EST", pattern = "yyyy-MM-dd")
@@ -98,7 +84,7 @@ public class Batch implements Serializable {
 	@Transient
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ADDRESS_ID")
-	private Address address;
+	private String address;
 
 	/**
 	 * Anything above this grade is GREEN
@@ -133,16 +119,16 @@ public class Batch implements Serializable {
 	@Transient
 	@JsonIgnore
 	@OneToMany(mappedBy = "batch")
-	private Set<Note> notes;
+	private Set<String> notes;
 
 	public Batch() {
 		super();
 	}
 
 	public Batch(int batchId, String resourceId, String trainingName, Trainer trainer, Trainer coTrainer,
-			SkillType skillType, TrainingType trainingType, Date startDate, Date endDate, String location,
-			Address address, short goodGradeThreshold, short borderlineGradeThreshold, int weeks, int gradedWeeks,
-			Set<Note> notes) {
+			String skillType, String trainingType, Date startDate, Date endDate, String location, String address,
+			short goodGradeThreshold, short borderlineGradeThreshold, Set<Trainee> trainees, int weeks, int gradedWeeks,
+			Set<String> notes) {
 		this.batchId = batchId;
 		this.resourceId = resourceId;
 		this.trainingName = trainingName;
@@ -156,6 +142,7 @@ public class Batch implements Serializable {
 		this.address = address;
 		this.goodGradeThreshold = goodGradeThreshold;
 		this.borderlineGradeThreshold = borderlineGradeThreshold;
+		this.trainees = trainees;
 		this.weeks = weeks;
 		this.gradedWeeks = gradedWeeks;
 		this.notes = notes;
@@ -201,19 +188,19 @@ public class Batch implements Serializable {
 		this.coTrainer = coTrainer;
 	}
 
-	public SkillType getSkillType() {
+	public String getSkillType() {
 		return skillType;
 	}
 
-	public void setSkillType(SkillType skillType) {
+	public void setSkillType(String skillType) {
 		this.skillType = skillType;
 	}
 
-	public TrainingType getTrainingType() {
+	public String getTrainingType() {
 		return trainingType;
 	}
 
-	public void setTrainingType(TrainingType trainingType) {
+	public void setTrainingType(String trainingType) {
 		this.trainingType = trainingType;
 	}
 
@@ -241,11 +228,11 @@ public class Batch implements Serializable {
 		this.location = location;
 	}
 
-	public Address getAddress() {
+	public String getAddress() {
 		return address;
 	}
 
-	public void setAddress(Address address) {
+	public void setAddress(String address) {
 		this.address = address;
 	}
 
@@ -265,6 +252,14 @@ public class Batch implements Serializable {
 		this.borderlineGradeThreshold = borderlineGradeThreshold;
 	}
 
+	public Set<Trainee> getTrainees() {
+		return trainees;
+	}
+
+	public void setTrainees(Set<Trainee> trainees) {
+		this.trainees = trainees;
+	}
+
 	public int getWeeks() {
 		return weeks;
 	}
@@ -281,16 +276,12 @@ public class Batch implements Serializable {
 		this.gradedWeeks = gradedWeeks;
 	}
 
-	public Set<Note> getNotes() {
+	public Set<String> getNotes() {
 		return notes;
 	}
 
-	public void setNotes(Set<Note> notes) {
+	public void setNotes(Set<String> notes) {
 		this.notes = notes;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 	@Override
@@ -309,6 +300,7 @@ public class Batch implements Serializable {
 		result = prime * result + ((resourceId == null) ? 0 : resourceId.hashCode());
 		result = prime * result + ((skillType == null) ? 0 : skillType.hashCode());
 		result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
+		result = prime * result + ((trainees == null) ? 0 : trainees.hashCode());
 		result = prime * result + ((trainer == null) ? 0 : trainer.hashCode());
 		result = prime * result + ((trainingName == null) ? 0 : trainingName.hashCode());
 		result = prime * result + ((trainingType == null) ? 0 : trainingType.hashCode());
@@ -363,12 +355,20 @@ public class Batch implements Serializable {
 				return false;
 		} else if (!resourceId.equals(other.resourceId))
 			return false;
-		if (skillType != other.skillType)
+		if (skillType == null) {
+			if (other.skillType != null)
+				return false;
+		} else if (!skillType.equals(other.skillType))
 			return false;
 		if (startDate == null) {
 			if (other.startDate != null)
 				return false;
 		} else if (!startDate.equals(other.startDate))
+			return false;
+		if (trainees == null) {
+			if (other.trainees != null)
+				return false;
+		} else if (!trainees.equals(other.trainees))
 			return false;
 		if (trainer == null) {
 			if (other.trainer != null)
@@ -380,7 +380,10 @@ public class Batch implements Serializable {
 				return false;
 		} else if (!trainingName.equals(other.trainingName))
 			return false;
-		if (trainingType != other.trainingType)
+		if (trainingType == null) {
+			if (other.trainingType != null)
+				return false;
+		} else if (!trainingType.equals(other.trainingType))
 			return false;
 		if (weeks != other.weeks)
 			return false;
@@ -393,7 +396,7 @@ public class Batch implements Serializable {
 				+ ", trainer=" + trainer + ", coTrainer=" + coTrainer + ", skillType=" + skillType + ", trainingType="
 				+ trainingType + ", startDate=" + startDate + ", endDate=" + endDate + ", location=" + location
 				+ ", address=" + address + ", goodGradeThreshold=" + goodGradeThreshold + ", borderlineGradeThreshold="
-				+ borderlineGradeThreshold + ", weeks=" + weeks + ", gradedWeeks=" + gradedWeeks + ", notes=" + notes
-				+ "]";
+				+ borderlineGradeThreshold + ", trainees=" + trainees + ", weeks=" + weeks + ", gradedWeeks="
+				+ gradedWeeks + ", notes=" + notes + "]";
 	}
 }

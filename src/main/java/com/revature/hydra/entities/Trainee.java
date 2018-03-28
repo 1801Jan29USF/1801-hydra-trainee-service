@@ -10,14 +10,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
@@ -25,7 +22,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -46,18 +42,12 @@ public class Trainee implements Serializable {
 	@Column(name = "RESOURCE_ID")
 	private int resourceId;
 
-	@NotEmpty
-	@Column(name = "TRAINEE_NAME")
-	private String name;
-
 	@NotNull
-	@Enumerated(EnumType.STRING)
 	@Column(name = "TRAINING_STATUS")
-	private TrainingStatus trainingStatus;
+	private String trainingStatus;
 
 	@Embedded
-	@AttributeOverrides(value = { @AttributeOverride(name = "batchId", column = @Column(name = "batch_id"))
-	})
+	@AttributeOverrides(value = { @AttributeOverride(name = "batchId", column = @Column(name = "batch_id")) })
 	private Batch batch;
 
 	@Column(name = "PHONE_NUMBER")
@@ -87,29 +77,24 @@ public class Trainee implements Serializable {
 	@Column(name = "PROJECT_COMPLETION")
 	private String projectCompletion;
 
-	@Enumerated(EnumType.STRING)
 	@Column(name = "FLAG_STATUS")
-	private TraineeFlag flagStatus;
+	private String flagStatus;
 
 	@Length(min = 0, max = 4000)
 	@Column(name = "FLAG_NOTES", length = 4000)
 	private String flagNotes;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "trainee")
-	private Set<Grade> grades;
+	@Column()
+	private Set<String> grades;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "trainee")
-	private Set<Note> notes;
+	@Column()
+	private Set<String> notes;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "trainee")
 	@OrderBy(value = "INTERVIEW_DATE DESC")
-	private Set<Panel> panelInterviews = new TreeSet<>();
-
-	// @OneToMany(mappedBy = "trainee", cascade = CascadeType.REMOVE)
-	// entity diagram has a TOTALS field. Don't know what that is
+	private Set<String> panelInterviews = new TreeSet<>();
 
 	@Column(name = "MARKETING_STATUS")
 	private String marketingStatus;
@@ -128,14 +113,13 @@ public class Trainee implements Serializable {
 		super();
 	}
 
-	public Trainee(int traineeId, int resourceId, String name, TrainingStatus trainingStatus, Batch batch,
-			String phoneNumber, String skypeId, String profileUrl, String recruiterName, String college, String degree,
-			String major, String techScreenerName, String projectCompletion, TraineeFlag flagStatus, String flagNotes,
-			Set<Grade> grades, Set<Note> notes, Set<Panel> panelInterviews, String marketingStatus, String client,
-			String endClient, User traineeUserInfo) {
+	public Trainee(int traineeId, int resourceId, String trainingStatus, Batch batch, String phoneNumber,
+			String skypeId, String profileUrl, String recruiterName, String college, String degree, String major,
+			String techScreenerName, String projectCompletion, String flagStatus, String flagNotes, Set<String> grades,
+			Set<String> notes, Set<String> panelInterviews, String marketingStatus, String client, String endClient,
+			User traineeUserInfo) {
 		this.traineeId = traineeId;
 		this.resourceId = resourceId;
-		this.name = name;
 		this.trainingStatus = trainingStatus;
 		this.batch = batch;
 		this.phoneNumber = phoneNumber;
@@ -174,19 +158,11 @@ public class Trainee implements Serializable {
 		this.resourceId = resourceId;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public TrainingStatus getTrainingStatus() {
+	public String getTrainingStatus() {
 		return trainingStatus;
 	}
 
-	public void setTrainingStatus(TrainingStatus trainingStatus) {
+	public void setTrainingStatus(String trainingStatus) {
 		this.trainingStatus = trainingStatus;
 	}
 
@@ -270,11 +246,11 @@ public class Trainee implements Serializable {
 		this.projectCompletion = projectCompletion;
 	}
 
-	public TraineeFlag getFlagStatus() {
+	public String getFlagStatus() {
 		return flagStatus;
 	}
 
-	public void setFlagStatus(TraineeFlag flagStatus) {
+	public void setFlagStatus(String flagStatus) {
 		this.flagStatus = flagStatus;
 	}
 
@@ -286,27 +262,27 @@ public class Trainee implements Serializable {
 		this.flagNotes = flagNotes;
 	}
 
-	public Set<Grade> getGrades() {
+	public Set<String> getGrades() {
 		return grades;
 	}
 
-	public void setGrades(Set<Grade> grades) {
+	public void setGrades(Set<String> grades) {
 		this.grades = grades;
 	}
 
-	public Set<Note> getNotes() {
+	public Set<String> getNotes() {
 		return notes;
 	}
 
-	public void setNotes(Set<Note> notes) {
+	public void setNotes(Set<String> notes) {
 		this.notes = notes;
 	}
 
-	public Set<Panel> getPanelInterviews() {
+	public Set<String> getPanelInterviews() {
 		return panelInterviews;
 	}
 
-	public void setPanelInterviews(Set<Panel> panelInterviews) {
+	public void setPanelInterviews(Set<String> panelInterviews) {
 		this.panelInterviews = panelInterviews;
 	}
 
@@ -342,10 +318,6 @@ public class Trainee implements Serializable {
 		this.traineeUserInfo = traineeUserInfo;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -360,7 +332,6 @@ public class Trainee implements Serializable {
 		result = prime * result + ((grades == null) ? 0 : grades.hashCode());
 		result = prime * result + ((major == null) ? 0 : major.hashCode());
 		result = prime * result + ((marketingStatus == null) ? 0 : marketingStatus.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((notes == null) ? 0 : notes.hashCode());
 		result = prime * result + ((panelInterviews == null) ? 0 : panelInterviews.hashCode());
 		result = prime * result + ((phoneNumber == null) ? 0 : phoneNumber.hashCode());
@@ -415,7 +386,10 @@ public class Trainee implements Serializable {
 				return false;
 		} else if (!flagNotes.equals(other.flagNotes))
 			return false;
-		if (flagStatus != other.flagStatus)
+		if (flagStatus == null) {
+			if (other.flagStatus != null)
+				return false;
+		} else if (!flagStatus.equals(other.flagStatus))
 			return false;
 		if (grades == null) {
 			if (other.grades != null)
@@ -431,11 +405,6 @@ public class Trainee implements Serializable {
 			if (other.marketingStatus != null)
 				return false;
 		} else if (!marketingStatus.equals(other.marketingStatus))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
 			return false;
 		if (notes == null) {
 			if (other.notes != null)
@@ -486,20 +455,22 @@ public class Trainee implements Serializable {
 				return false;
 		} else if (!traineeUserInfo.equals(other.traineeUserInfo))
 			return false;
-		if (trainingStatus != other.trainingStatus)
+		if (trainingStatus == null) {
+			if (other.trainingStatus != null)
+				return false;
+		} else if (!trainingStatus.equals(other.trainingStatus))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Trainee [traineeId=" + traineeId + ", resourceId=" + resourceId + ", name=" + name + ", trainingStatus="
-				+ trainingStatus + ", batch=" + batch + ", phoneNumber=" + phoneNumber + ", skypeId=" + skypeId
-				+ ", profileUrl=" + profileUrl + ", recruiterName=" + recruiterName + ", college=" + college
-				+ ", degree=" + degree + ", major=" + major + ", techScreenerName=" + techScreenerName
-				+ ", projectCompletion=" + projectCompletion + ", flagStatus=" + flagStatus + ", flagNotes=" + flagNotes
-				+ ", grades=" + grades + ", notes=" + notes + ", panelInterviews=" + panelInterviews
-				+ ", marketingStatus=" + marketingStatus + ", client=" + client + ", endClient=" + endClient
-				+ ", traineeUserInfo=" + traineeUserInfo + "]";
+		return "Trainee [traineeId=" + traineeId + ", resourceId=" + resourceId + ", trainingStatus=" + trainingStatus
+				+ ", batch=" + batch + ", phoneNumber=" + phoneNumber + ", skypeId=" + skypeId + ", profileUrl="
+				+ profileUrl + ", recruiterName=" + recruiterName + ", college=" + college + ", degree=" + degree
+				+ ", major=" + major + ", techScreenerName=" + techScreenerName + ", projectCompletion="
+				+ projectCompletion + ", flagStatus=" + flagStatus + ", flagNotes=" + flagNotes + ", grades=" + grades
+				+ ", notes=" + notes + ", panelInterviews=" + panelInterviews + ", marketingStatus=" + marketingStatus
+				+ ", client=" + client + ", endClient=" + endClient + ", traineeUserInfo=" + traineeUserInfo + "]";
 	}
 }

@@ -1,13 +1,10 @@
 package com.revature.hydra.entities;
 
-
 import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -56,46 +53,25 @@ public class Trainer implements Serializable {
 	private String email;
 
 	@Email
-	@Enumerated(EnumType.STRING)
 	@Column(name = "TIER")
-	private TrainerRole tier;
+	private String tier;
 
 	@Transient
 	@OneToMany(mappedBy = "trainer", fetch = FetchType.LAZY)
 	@JsonIgnore
 	private Set<Batch> batches;
 
-	/**
-	 * Any evaluations that the trainer has undergone
-	 */
-	/*
-	 * @OneToMany(mappedBy="trainer")
-	 * 
-	 * @JsonIgnore
-	 */
-	// private Set<TrainerTaskCompletion> evaluations;
-
-	/**
-	 * Any evaluations that the user has checked off on behalf of another
-	 * trainer
-	 */
-	/*
-	 * @OneToMany(mappedBy="checkedBy")
-	 * 
-	 * @JsonIgnore
-	 */
-	// private Set<TrainerTaskCompletion> checkOffs;
-
 	public Trainer() {
 		super();
 	}
 
-	public Trainer(String name, String title, String email, TrainerRole tier) {
-		super();
+	public Trainer(int trainerId, String name, String title, String email, String tier, Set<Batch> batches) {
+		this.trainerId = trainerId;
 		this.name = name;
 		this.title = title;
 		this.email = email;
 		this.tier = tier;
+		this.batches = batches;
 	}
 
 	public int getTrainerId() {
@@ -130,11 +106,11 @@ public class Trainer implements Serializable {
 		this.email = email;
 	}
 
-	public TrainerRole getTier() {
+	public String getTier() {
 		return tier;
 	}
 
-	public void setTier(TrainerRole tier) {
+	public void setTier(String tier) {
 		this.tier = tier;
 	}
 
@@ -145,27 +121,17 @@ public class Trainer implements Serializable {
 	public void setBatches(Set<Batch> batches) {
 		this.batches = batches;
 	}
-	/*
-	 * public Set<TrainerTaskCompletion> getEvaluations() { return evaluations;
-	 * }
-	 * 
-	 * public void setEvaluations(Set<TrainerTaskCompletion> evaluations) {
-	 * this.evaluations = evaluations; }
-	 * 
-	 * public Set<TrainerTaskCompletion> getCheckOffs() { return checkOffs; }
-	 * 
-	 * public void setCheckOffs(Set<TrainerTaskCompletion> checkOffs) {
-	 * this.checkOffs = checkOffs; }
-	 */
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((batches == null) ? 0 : batches.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((tier == null) ? 0 : tier.hashCode());
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		result = prime * result + trainerId;
 		return result;
 	}
 
@@ -178,6 +144,11 @@ public class Trainer implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Trainer other = (Trainer) obj;
+		if (batches == null) {
+			if (other.batches != null)
+				return false;
+		} else if (!batches.equals(other.batches))
+			return false;
 		if (email == null) {
 			if (other.email != null)
 				return false;
@@ -188,12 +159,17 @@ public class Trainer implements Serializable {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (tier != other.tier)
+		if (tier == null) {
+			if (other.tier != null)
+				return false;
+		} else if (!tier.equals(other.tier))
 			return false;
 		if (title == null) {
 			if (other.title != null)
 				return false;
 		} else if (!title.equals(other.title))
+			return false;
+		if (trainerId != other.trainerId)
 			return false;
 		return true;
 	}
@@ -201,7 +177,6 @@ public class Trainer implements Serializable {
 	@Override
 	public String toString() {
 		return "Trainer [trainerId=" + trainerId + ", name=" + name + ", title=" + title + ", email=" + email
-				+ ", tier=" + tier + "]";
+				+ ", tier=" + tier + ", batches=" + batches + "]";
 	}
-
 }
